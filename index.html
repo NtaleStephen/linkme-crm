@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LinkMe CRM - Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="dashboard">
+  <aside class="app-sidebar">
+    <a class="brand" href="index.html"><span>LinkMe</span><small>CRM</small></a>
+    <nav class="sidebar-nav">
+      <a class="active" href="index.html" data-icon="layout-dashboard">Dashboard</a>
+      <a href="customers.html" data-icon="users">Customers</a>
+      <a href="leads.html" data-icon="chart-no-axes-combined">Leads</a>
+      <a href="tasks.html" data-icon="list-checks">Tasks</a>
+      <a href="reports.html" data-icon="bar-chart-3">Reports</a>
+    </nav>
+    <p class="nav-label">Tools</p>
+    <nav class="sidebar-nav">
+      <a href="whatsapp.html" data-icon="message-circle">WhatsApp Center</a>
+      <a href="notes.html" data-icon="notebook-pen">Notes</a>
+    </nav>
+    <p class="nav-label">Workspace</p>
+    <nav class="sidebar-nav">
+      <a href="settings.html" data-icon="settings">Settings</a>
+      <a href="#" data-icon="user-round">Profile</a>
+      <a href="#" data-icon="log-out">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+    <header class="topbar">
+      <button class="icon-btn d-lg-none" type="button" data-sidebar-toggle aria-label="Open menu"><i data-lucide="menu"></i></button>
+      <div>
+        <p class="eyebrow">Good morning, Amina</p>
+        <h1>Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" type="button" aria-label="Notifications"><i data-lucide="bell"></i></button>
+        <div class="avatar">AK</div>
+      </div>
+    </header>
+
+    <section class="content-shell">
+      <div class="welcome-band">
+        <div>
+          <p class="eyebrow">Today</p>
+          <h2>Keep follow-ups moving</h2>
+          <p>Focus on customers due today, warm leads, and tasks that can close revenue.</p>
+        </div>
+        <div class="quick-actions">
+          <a href="customers.html?action=new" class="btn btn-primary"><i data-lucide="user-plus"></i>Add Customer</a>
+          <a href="leads.html?action=new" class="btn btn-outline-primary"><i data-lucide="plus"></i>New Lead</a>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="dashboardKpis"></div>
+
+      <div class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Revenue</p>
+              <h2>Monthly trend</h2>
+            </div>
+            <span class="badge-soft">UGX</span>
+          </div>
+          <div class="chart-bars" id="revenueChart" aria-label="Revenue chart"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Pipeline</p>
+              <h2>Lead conversion</h2>
+            </div>
+          </div>
+          <div id="conversionChart" class="conversion-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Activity</p>
+              <h2>Recent updates</h2>
+            </div>
+          </div>
+          <div class="activity-list" id="activityFeed"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Follow-ups</p>
+              <h2>Due soon</h2>
+            </div>
+            <a href="tasks.html" class="text-link">View all</a>
+          </div>
+          <div id="dueTasks" class="task-stack"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <nav class="mobile-nav">
+    <a class="active" href="index.html"><i data-lucide="home"></i><span>Home</span></a>
+    <a href="customers.html"><i data-lucide="users"></i><span>Customers</span></a>
+    <a href="leads.html"><i data-lucide="chart-no-axes-combined"></i><span>Leads</span></a>
+    <a href="tasks.html"><i data-lucide="check"></i><span>Tasks</span></a>
+    <a href="settings.html"><i data-lucide="user-round"></i><span>Profile</span></a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

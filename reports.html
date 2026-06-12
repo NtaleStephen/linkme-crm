@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LinkMe CRM - Reports</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="reports">
+  <aside class="app-sidebar">
+    <a class="brand" href="index.html"><span>LinkMe</span><small>CRM</small></a>
+    <nav class="sidebar-nav">
+      <a href="index.html" data-icon="layout-dashboard">Dashboard</a>
+      <a href="customers.html" data-icon="users">Customers</a>
+      <a href="leads.html" data-icon="chart-no-axes-combined">Leads</a>
+      <a href="tasks.html" data-icon="list-checks">Tasks</a>
+      <a class="active" href="reports.html" data-icon="bar-chart-3">Reports</a>
+    </nav>
+  </aside>
+  <main class="app-main">
+    <header class="topbar">
+      <button class="icon-btn d-lg-none" type="button" data-sidebar-toggle aria-label="Open menu"><i data-lucide="menu"></i></button>
+      <div><p class="eyebrow">Performance</p><h1>Reports</h1></div>
+      <button class="btn btn-outline-primary" id="exportReport"><i data-lucide="download"></i>Export</button>
+    </header>
+    <section class="content-shell">
+      <div class="kpi-grid" id="reportKpis"></div>
+      <div class="dashboard-grid">
+        <section class="panel"><div class="panel-header"><div><p class="eyebrow">Sales</p><h2>Revenue trends</h2></div></div><div class="chart-bars tall" id="reportRevenue"></div></section>
+        <section class="panel"><div class="panel-header"><div><p class="eyebrow">Customers</p><h2>Growth</h2></div></div><div class="line-chart" id="growthChart"></div></section>
+        <section class="panel span-wide"><div class="panel-header"><div><p class="eyebrow">Leads</p><h2>Stage summary</h2></div></div><div id="stageSummary" class="conversion-list"></div></section>
+      </div>
+    </section>
+  </main>
+  <nav class="mobile-nav">
+    <a href="index.html"><i data-lucide="home"></i><span>Home</span></a>
+    <a href="customers.html"><i data-lucide="users"></i><span>Customers</span></a>
+    <a href="leads.html"><i data-lucide="chart-no-axes-combined"></i><span>Leads</span></a>
+    <a href="tasks.html"><i data-lucide="check"></i><span>Tasks</span></a>
+    <a href="settings.html"><i data-lucide="user-round"></i><span>Profile</span></a>
+  </nav>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

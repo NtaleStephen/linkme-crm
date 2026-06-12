@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LinkMe CRM - Customers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="customers">
+  <aside class="app-sidebar">
+    <a class="brand" href="index.html"><span>LinkMe</span><small>CRM</small></a>
+    <nav class="sidebar-nav">
+      <a href="index.html" data-icon="layout-dashboard">Dashboard</a>
+      <a class="active" href="customers.html" data-icon="users">Customers</a>
+      <a href="leads.html" data-icon="chart-no-axes-combined">Leads</a>
+      <a href="tasks.html" data-icon="list-checks">Tasks</a>
+      <a href="reports.html" data-icon="bar-chart-3">Reports</a>
+    </nav>
+    <p class="nav-label">Tools</p>
+    <nav class="sidebar-nav">
+      <a href="whatsapp.html" data-icon="message-circle">WhatsApp Center</a>
+      <a href="notes.html" data-icon="notebook-pen">Notes</a>
+    </nav>
+    <p class="nav-label">Workspace</p>
+    <nav class="sidebar-nav">
+      <a href="settings.html" data-icon="settings">Settings</a>
+      <a href="#" data-icon="user-round">Profile</a>
+      <a href="#" data-icon="log-out">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="app-main">
+    <header class="topbar">
+      <button class="icon-btn d-lg-none" type="button" data-sidebar-toggle aria-label="Open menu"><i data-lucide="menu"></i></button>
+      <div><p class="eyebrow">Contacts</p><h1>Customers</h1></div>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerModal"><i data-lucide="user-plus"></i>Add</button>
+    </header>
+
+    <section class="content-shell">
+      <div class="toolbar">
+        <div class="search-box"><i data-lucide="search"></i><input id="customerSearch" type="search" placeholder="Search customers"></div>
+        <select id="customerFilter" class="form-select compact-select" aria-label="Filter customers">
+          <option value="all">All customers</option>
+          <option value="Retail">Retail</option>
+          <option value="Salon">Salon</option>
+          <option value="Consulting">Consulting</option>
+          <option value="Agency">Agency</option>
+        </select>
+      </div>
+      <div class="table-panel">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>Name</th><th>Phone</th><th>Segment</th><th>Last contact</th><th></th></tr></thead>
+            <tbody id="customerRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal fade" id="customerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="customerForm">
+        <div class="modal-header"><h2 class="modal-title">Customer</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body form-grid">
+          <input type="hidden" id="customerId">
+          <label>Name<input class="form-control" id="customerName" required></label>
+          <label>Phone<input class="form-control" id="customerPhone" required></label>
+          <label>WhatsApp<input class="form-control" id="customerWhatsapp"></label>
+          <label>Email<input class="form-control" id="customerEmail" type="email"></label>
+          <label>Segment<select class="form-select" id="customerSegment"><option>Retail</option><option>Salon</option><option>Consulting</option><option>Agency</option></select></label>
+          <label>Address<input class="form-control" id="customerAddress"></label>
+          <label class="span-2">Notes<textarea class="form-control" id="customerNotes" rows="3"></textarea></label>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary">Save</button></div>
+      </form>
+    </div>
+  </div>
+
+  <nav class="mobile-nav">
+    <a href="index.html"><i data-lucide="home"></i><span>Home</span></a>
+    <a class="active" href="customers.html"><i data-lucide="users"></i><span>Customers</span></a>
+    <a href="leads.html"><i data-lucide="chart-no-axes-combined"></i><span>Leads</span></a>
+    <a href="tasks.html"><i data-lucide="check"></i><span>Tasks</span></a>
+    <a href="settings.html"><i data-lucide="user-round"></i><span>Profile</span></a>
+  </nav>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
