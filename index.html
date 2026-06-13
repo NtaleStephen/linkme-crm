@@ -38,22 +38,41 @@
         <h1>Dashboard</h1>
       </div>
       <div class="topbar-actions">
-        <button class="icon-btn" type="button" aria-label="Notifications"><i data-lucide="bell"></i></button>
+        <button class="icon-btn has-dot" type="button" id="notificationToggle" aria-label="Notifications"><i data-lucide="bell"></i></button>
         <div class="avatar">AK</div>
+      </div>
+      <div class="notification-panel" id="notificationPanel" hidden>
+        <div class="panel-header compact">
+          <div>
+            <p class="eyebrow">Alerts</p>
+            <h2>Notifications</h2>
+          </div>
+          <span class="badge-soft" id="notificationCount">0</span>
+        </div>
+        <div id="notificationList" class="notification-list"></div>
       </div>
     </header>
 
     <section class="content-shell">
       <div class="welcome-band">
         <div>
-          <p class="eyebrow">Today</p>
-          <h2>Keep follow-ups moving</h2>
-          <p>Focus on customers due today, warm leads, and tasks that can close revenue.</p>
+          <p class="eyebrow" id="dashboardDate">Today</p>
+          <h2 id="welcomeHeadline">Keep follow-ups moving</h2>
+          <p id="welcomeSummary">Focus on customers due today, warm leads, and tasks that can close revenue.</p>
         </div>
         <div class="quick-actions">
           <a href="customers.html?action=new" class="btn btn-primary"><i data-lucide="user-plus"></i>Add Customer</a>
           <a href="leads.html?action=new" class="btn btn-outline-primary"><i data-lucide="plus"></i>New Lead</a>
+          <a href="tasks.html" class="btn btn-outline-primary"><i data-lucide="calendar-plus"></i>Follow Up</a>
         </div>
+      </div>
+
+      <div class="dashboard-toolbar">
+        <div class="segmented compact" id="chartRange">
+          <button class="active" data-range="6">6 months</button>
+          <button data-range="3">3 months</button>
+        </div>
+        <div class="dashboard-insights" id="dashboardInsights"></div>
       </div>
 
       <div class="kpi-grid" id="dashboardKpis"></div>
@@ -99,6 +118,16 @@
             <a href="tasks.html" class="text-link">View all</a>
           </div>
           <div id="dueTasks" class="task-stack"></div>
+        </section>
+
+        <section class="panel span-wide">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Priority</p>
+              <h2>Today&apos;s focus</h2>
+            </div>
+          </div>
+          <div class="focus-grid" id="todayFocus"></div>
         </section>
       </div>
     </section>

@@ -141,6 +141,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .icon-btn {
+  position: relative;
   display: inline-grid;
   place-items: center;
   width: 42px;
@@ -149,6 +150,64 @@ a { color: inherit; text-decoration: none; }
   border-radius: 8px;
   background: var(--card);
   color: #334155;
+}
+
+.has-dot::after {
+  content: "";
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--card);
+  border-radius: 50%;
+  background: var(--secondary);
+}
+
+.notification-panel {
+  position: absolute;
+  top: 72px;
+  right: 28px;
+  width: min(360px, calc(100vw - 32px));
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: 0 20px 55px rgba(15, 23, 42, .14);
+}
+
+.notification-panel[hidden] {
+  display: none;
+}
+
+.notification-list {
+  display: grid;
+  gap: 10px;
+}
+
+.notification-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.notification-item svg {
+  width: 18px;
+  height: 18px;
+  color: var(--primary);
+  flex: 0 0 auto;
+}
+
+.notification-item strong,
+.notification-item span {
+  display: block;
+}
+
+.notification-item span {
+  color: var(--muted);
+  font-size: .86rem;
 }
 
 .avatar {
@@ -186,6 +245,7 @@ a { color: inherit; text-decoration: none; }
 
 .quick-actions,
 .toolbar,
+.dashboard-toolbar,
 .segmented,
 .panel-header {
   display: flex;
@@ -194,6 +254,38 @@ a { color: inherit; text-decoration: none; }
 }
 
 .quick-actions { flex-wrap: wrap; justify-content: flex-end; }
+
+.dashboard-toolbar {
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dashboard-insights {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.dashboard-insights span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: #334155;
+  font-size: .84rem;
+  font-weight: 750;
+}
+
+.dashboard-insights svg {
+  width: 16px;
+  height: 16px;
+  color: var(--primary);
+}
 
 .btn {
   display: inline-flex;
@@ -280,6 +372,10 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 16px;
 }
 
+.panel-header.compact {
+  margin-bottom: 12px;
+}
+
 .badge-soft {
   display: inline-flex;
   align-items: center;
@@ -331,7 +427,8 @@ a { color: inherit; text-decoration: none; }
 .activity-list,
 .task-stack,
 .task-list,
-.settings-list {
+.settings-list,
+.focus-grid {
   display: grid;
   gap: 12px;
 }
@@ -468,6 +565,70 @@ a { color: inherit; text-decoration: none; }
   font-size: .78rem;
 }
 
+.chip-danger {
+  background: #fef2f2;
+  color: var(--danger);
+}
+
+.empty-state {
+  padding: 14px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.focus-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.focus-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 116px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.focus-card:hover {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+}
+
+.focus-card > svg {
+  width: 22px;
+  height: 22px;
+  color: var(--primary);
+  flex: 0 0 auto;
+}
+
+.focus-card span,
+.focus-card strong,
+.focus-card p {
+  display: block;
+}
+
+.focus-card span {
+  color: var(--muted);
+  font-size: .76rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.focus-card strong {
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+.focus-card p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -566,6 +727,12 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--primary);
   background: #ecfdf5;
   color: var(--primary);
+}
+
+.segmented.compact button {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: .84rem;
 }
 
 .profile-grid,
@@ -717,6 +884,7 @@ a { color: inherit; text-decoration: none; }
   }
 
   .welcome-band,
+  .dashboard-toolbar,
   .toolbar,
   .task-item {
     align-items: stretch;
@@ -735,8 +903,13 @@ a { color: inherit; text-decoration: none; }
   .profile-grid,
   .settings-grid,
   .contact-grid,
+  .focus-grid,
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-insights {
+    justify-content: flex-start;
   }
 
   .span-2 {

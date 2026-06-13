@@ -15,5 +15,6 @@ Open `index.html` in a browser to start. The prototype includes:
 - Reports with sales, customer growth, and lead summaries
 - WhatsApp Center
 - Notes and basic settings
+- Phase 2 dashboard with KPI context, notifications, chart range controls, today focus cards, activity feed, and follow-up summaries
 
 Local demo data is saved under the `linkme-crm-state` LocalStorage key.

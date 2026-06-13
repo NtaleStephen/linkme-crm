@@ -97,28 +97,102 @@ function escapeHtml(value = "") {
 function renderDashboard() {
   const openTasks = state.tasks.filter((task) => !task.done).length;
   const openLeads = state.leads.filter((lead) => !["Won", "Lost"].includes(lead.stage));
+  const hotLeads = state.leads.filter((lead) => ["Interested", "Negotiating"].includes(lead.stage));
+  const dueToday = state.tasks.filter((task) => !task.done && daysFromToday(task.due) <= 0);
+  const dueSoon = state.tasks.filter((task) => !task.done && daysFromToday(task.due) <= 2);
   const wonRevenue = state.leads.filter((lead) => lead.stage === "Won").reduce((sum, lead) => sum + Number(lead.value), 0);
+  const pipelineValue = openLeads.reduce((sum, lead) => sum + Number(lead.value), 0);
 
   renderKpis("#dashboardKpis", [
     ["Customers", state.customers.length, "+12% this month", "users"],
-    ["Open Leads", openLeads.length, "Worth " + money(openLeads.reduce((sum, lead) => sum + Number(lead.value), 0)), "chart-no-axes-combined"],
-    ["Tasks", openTasks, "Due soon", "list-checks"],
+    ["Pipeline", money(pipelineValue), `${openLeads.length} open leads`, "chart-no-axes-combined"],
+    ["Due Today", dueToday.length, `${openTasks} open tasks`, "list-checks"],
     ["Revenue", money(wonRevenue), "Closed deals", "banknote"]
   ]);
 
-  renderBars("#revenueChart", state.revenue, ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]);
+  renderDashboardSummary(dueToday, hotLeads, pipelineValue);
+  setupDashboardControls();
+  renderRevenueRange(6);
   renderConversion("#conversionChart");
+  renderNotifications(dueSoon, hotLeads);
 
   document.querySelector("#activityFeed").innerHTML = state.activities.map((item) => `
     <div class="activity-item"><span class="activity-dot"></span><span>${escapeHtml(item)}</span></div>
   `).join("");
 
-  document.querySelector("#dueTasks").innerHTML = state.tasks.filter((task) => !task.done).slice(0, 4).map((task) => `
+  document.querySelector("#dueTasks").innerHTML = dueSoon.slice(0, 4).map((task) => `
     <div class="task-mini">
-      <div><strong>${escapeHtml(task.title)}</strong><span>${customerName(task.customerId)} · ${task.due}</span></div>
-      <span class="chip">Open</span>
+      <div><strong>${escapeHtml(task.title)}</strong><span>${customerName(task.customerId)} · ${formatDue(task.due)}</span></div>
+      <span class="chip ${daysFromToday(task.due) < 0 ? "chip-danger" : ""}">${daysFromToday(task.due) < 0 ? "Late" : "Open"}</span>
     </div>
-  `).join("");
+  `).join("") || `<div class="empty-state">No follow-ups due soon.</div>`;
+
+  document.querySelector("#todayFocus").innerHTML = [
+    focusCard("Call first", dueToday[0]?.title || "No urgent task", dueToday[0] ? customerName(dueToday[0].customerId) : "Your day is clear", "phone-call", "tasks.html"),
+    focusCard("Warm lead", hotLeads[0]?.name || "No warm lead", hotLeads[0] ? money(hotLeads[0].value) : "Pipeline is calm", "flame", "leads.html"),
+    focusCard("Customer care", state.customers[0]?.name || "Add a customer", state.customers[0]?.notes || "Start building your customer list", "heart-handshake", "customers.html")
+  ].join("");
+  refreshIcons();
+}
+
+function renderDashboardSummary(dueToday, hotLeads, pipelineValue) {
+  const date = new Intl.DateTimeFormat("en-UG", { weekday: "long", day: "numeric", month: "short" }).format(new Date());
+  document.querySelector("#dashboardDate").textContent = date;
+  document.querySelector("#welcomeHeadline").textContent = dueToday.length ? `${dueToday.length} follow-up${dueToday.length === 1 ? "" : "s"} need attention` : "Your follow-ups are under control";
+  document.querySelector("#welcomeSummary").textContent = `${hotLeads.length} warm lead${hotLeads.length === 1 ? "" : "s"} in motion with ${money(pipelineValue)} still open in the pipeline.`;
+  document.querySelector("#dashboardInsights").innerHTML = [
+    `<span><i data-lucide="clock-3"></i>${dueToday.length} due today</span>`,
+    `<span><i data-lucide="flame"></i>${hotLeads.length} warm leads</span>`,
+    `<span><i data-lucide="wallet"></i>${money(pipelineValue)} pipeline</span>`
+  ].join("");
+}
+
+function setupDashboardControls() {
+  document.querySelectorAll("[data-range]").forEach((button) => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll("[data-range]").forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+      renderRevenueRange(Number(button.dataset.range));
+    });
+  });
+
+  const toggle = document.querySelector("#notificationToggle");
+  const panel = document.querySelector("#notificationPanel");
+  toggle?.addEventListener("click", () => {
+    panel.hidden = !panel.hidden;
+  });
+}
+
+function renderRevenueRange(monthCount) {
+  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+  renderBars("#revenueChart", state.revenue.slice(-monthCount), labels.slice(-monthCount));
+}
+
+function renderNotifications(dueSoon, hotLeads) {
+  const notices = [
+    ...dueSoon.map((task) => ({ title: task.title, meta: `${customerName(task.customerId)} · ${formatDue(task.due)}`, icon: "calendar-clock" })),
+    ...hotLeads.slice(0, 2).map((lead) => ({ title: `${lead.name} is ${lead.stage.toLowerCase()}`, meta: money(lead.value), icon: "chart-no-axes-combined" }))
+  ];
+  document.querySelector("#notificationCount").textContent = notices.length;
+  document.querySelector("#notificationList").innerHTML = notices.map((notice) => `
+    <div class="notification-item">
+      <i data-lucide="${notice.icon}"></i>
+      <div><strong>${escapeHtml(notice.title)}</strong><span>${escapeHtml(notice.meta)}</span></div>
+    </div>
+  `).join("") || `<div class="empty-state">No new alerts.</div>`;
+}
+
+function focusCard(label, title, meta, icon, href) {
+  return `
+    <a class="focus-card" href="${href}">
+      <i data-lucide="${icon}"></i>
+      <div>
+        <span>${label}</span>
+        <strong>${escapeHtml(title)}</strong>
+        <p>${escapeHtml(meta)}</p>
+      </div>
+    </a>
+  `;
 }
 
 function renderKpis(selector, items) {
@@ -140,6 +214,22 @@ function renderBars(selector, values, labels) {
       <span>${labels[index]}</span>
     </div>
   `).join("");
+}
+
+function daysFromToday(dateText) {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  const due = new Date(dateText);
+  due.setHours(0, 0, 0, 0);
+  return Math.round((due - start) / 86400000);
+}
+
+function formatDue(dateText) {
+  const days = daysFromToday(dateText);
+  if (days < 0) return "Overdue";
+  if (days === 0) return "Today";
+  if (days === 1) return "Tomorrow";
+  return `In ${days} days`;
 }
 
 function renderConversion(selector) {
